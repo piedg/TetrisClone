@@ -2448,7 +2448,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SPEED DOWN AND MORE POINTS
+  m_text: "MOVE FASTER AND \nGET MORE POINTS"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5546457a2477f404e92d55632c602bbd, type: 2}
   m_sharedMaterial: {fileID: -8565320556774346181, guid: 5546457a2477f404e92d55632c602bbd, type: 2}
