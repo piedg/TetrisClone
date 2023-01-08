@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour
 {
-    [SerializeField] float FastTickRate = 0.10f;
     [SerializeField] float DefaultTickRate = 0.85f;
+    [SerializeField] float FastTickRate = 0.10f;
     [SerializeField] float DefaultHorizontalTickRate = 0.20f;
     [SerializeField] Vector3 RotationPivot;
+    [SerializeField] AudioClip BlockPlacedSFX;
 
     private float tickRate;
     private float horizontalTickRate;
 
-    float nextTick;
-    float nextHorizontalTick;
+    private float nextTick;
+    private float nextHorizontalTick;
 
     private void Start()
     {
@@ -27,23 +28,21 @@ public class Tetromino : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsGameInPause()) return;
+
         HandleInputs();
         MoveDown();
     }
 
     void HandleInputs()
     {
-        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            nextHorizontalTick = 0;
-        }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (Time.time > nextHorizontalTick)
             {
                 nextHorizontalTick = Time.time + horizontalTickRate;
-
                 transform.position += Vector3.left;
+
                 if (!IsValidMove())
                 {
                     transform.position += Vector3.right;
@@ -55,8 +54,8 @@ public class Tetromino : MonoBehaviour
             if (Time.time > nextHorizontalTick)
             {
                 nextHorizontalTick = Time.time + horizontalTickRate;
-
                 transform.position += Vector3.right;
+
                 if (!IsValidMove())
                 {
                     transform.position += Vector3.left;
@@ -66,6 +65,7 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             transform.RotateAround(transform.TransformPoint(RotationPivot), Vector3.forward, 90);
+
             if (!IsValidMove())
             {
                 transform.RotateAround(transform.TransformPoint(RotationPivot), Vector3.forward, -90);
@@ -93,14 +93,12 @@ public class Tetromino : MonoBehaviour
         if (Time.time > nextTick)
         {
             nextTick = Time.time + tickRate;
-
             transform.position += Vector3.down;
             if (!IsValidMove())
             {
+                AudioManager.Instance.PlayClip(BlockPlacedSFX);
                 transform.position += Vector3.up;
-
                 GameGrid.Instance.UpdateGrid(transform);
-
                 this.enabled = false;
             }
         }

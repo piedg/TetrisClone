@@ -7,14 +7,16 @@ public class GameGrid : MonoBehaviour
     public static GameGrid Instance { get; private set; }
 
     [SerializeField] GameObject EmptyBlock;
+    [SerializeField] AudioClip DeletedRowSFX;
 
     [field: SerializeField] public int Width { get; private set; } = 10;
     [field: SerializeField] public int Height { get; private set; } = 20;
     [field: SerializeField] public Transform[,] Grid { get; private set; }
 
-    Camera cam;
     [SerializeField] float CamOffsetX;
     [SerializeField] float CamOffsetY;
+
+    Camera cam;
 
     void Awake()
     {
@@ -33,7 +35,6 @@ public class GameGrid : MonoBehaviour
         Grid = new Transform[Width, Height];
 
         CreateVisualGrid();
-
         CenterCameraToGrid();
     }
 
@@ -48,22 +49,20 @@ public class GameGrid : MonoBehaviour
         }
 
         CheckRow();
-
         TetrominoSpawner.Instance.SpawnNext();
     }
 
-    public void CheckRow()
+    void CheckRow()
     {
-        for (int i = Height - 1; i >= 0; i--)
+        for (int h = Height - 1; h >= 0; h--)
         {
-            if (IsFullRow(i))
+            if (IsFullRow(h))
             {
-                DeleteRow(i);
-                MoveRowDown(i);
+                DeleteRow(h);
+                MoveRowDown(h);
             }
         }
     }
-
 
     bool IsFullRow(int row)
     {
@@ -83,6 +82,7 @@ public class GameGrid : MonoBehaviour
         {
             Destroy(Grid[x, row].gameObject);
             Grid[x, row] = null;
+            AudioManager.Instance.PlayClip(DeletedRowSFX);
             GameManager.Instance.AddPoints(100);
         }
     }
@@ -111,7 +111,7 @@ public class GameGrid : MonoBehaviour
             {
                 var emptyBlock = Instantiate(EmptyBlock, new Vector2(x, y), Quaternion.identity);
                 emptyBlock.transform.SetParent(transform);
-                emptyBlock.name = $"Empty Block {x} {y}"; 
+                emptyBlock.name = $"Block {x} {y}"; 
             }
         }
     }
@@ -120,6 +120,4 @@ public class GameGrid : MonoBehaviour
     {
         cam.transform.position = new Vector3(((float)Width / 2) + CamOffsetX, ((float)Height / 2) + CamOffsetY, -10f);
     }
-
-  
 }

@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8816068505244936877}
   - component: {fileID: 5039206391627657648}
+  - component: {fileID: 1793987727960481566}
   m_Layer: 0
   m_Name: S Tetromino
   m_TagString: Untagged
@@ -132,10 +133,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9f5e04403bc4d6db73026d2452637d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FastTickRate: 0.1
   DefaultTickRate: 0.85
+  FastTickRate: 0.1
   DefaultHorizontalTickRate: 0.2
   RotationPivot: {x: 1, y: 1, z: 0}
+  BlockPlacedSFX: {fileID: 8300000, guid: b49f85ea0e737bf43b404981c8008244, type: 3}
+--- !u!114 &1793987727960481566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816068505244936876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e22ecb2624c964db82221378392278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8816068505278351060
 GameObject:
   m_ObjectHideFlags: 0
